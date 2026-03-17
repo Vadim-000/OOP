@@ -1,16 +1,13 @@
 public class Strategy implements Solution{
 
     @Override
-    public boolean pickUpFork(Philopsof philosopher) {
+    public boolean pickUpFork(Philopsof philosopher)  throws InterruptedException{
         while (!philosopher.getLeftFork().take()) {
-            try { Thread.sleep(10); } catch (InterruptedException e) { return false; }
+            try { Thread.sleep(4); } catch (InterruptedException e) { return false; }
         }
+        Thread.sleep((long)(Math.random()*716));
         while (!philosopher.getRightFork().take()) {
-            philosopher.getLeftFork().put();
-            try { Thread.sleep(10); } catch (InterruptedException e) { return false; }
-            while (!philosopher.getLeftFork().take()) {
-                try { Thread.sleep(10); } catch (InterruptedException e) { return false; }
-            }
+            try { Thread.sleep(35); } catch (InterruptedException e) { return false; }
         }
         return true;
     }
