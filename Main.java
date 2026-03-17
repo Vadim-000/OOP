@@ -1,17 +1,25 @@
 public class Main {
     public static void main(String[] args) {
-        String mode = args[0];
+        if (args.length != 1)
+            System.out.println("отсутствуют параметры");
+        else {
+            String mode = args[0];
+            if ("run=problem".equals(mode)) {
+                work(new Strategy());
+            } else if ("run=solution".equals(mode)) {
+                work(new StrategySolution());
+            } else
+                System.out.println("некоректные параметры, введите run=problem или run=solution");
+
+        }
+    }
+
+    private static void work(Solution strategy) {
         final int PhilopsofCount = 5;
         Fork[] forks = new Fork[PhilopsofCount];
 
         for (int i = 0; i < PhilopsofCount; i++) {
             forks[i] = new Fork(i);
-        }
-        Solution strategy;
-        if ("run=problem".equals(mode)) {
-            strategy = new Strategy();
-        } else {
-            strategy = new StrategySolution();
         }
         Thread[] philopsofs = new Thread[PhilopsofCount];
         for (int i = 0; i < PhilopsofCount; i++) {
