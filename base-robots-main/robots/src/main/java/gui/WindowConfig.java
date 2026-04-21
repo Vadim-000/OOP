@@ -1,6 +1,5 @@
 package gui;
 
-import java.awt.*;
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -10,18 +9,15 @@ public class WindowConfig {
     private static final String CONFIG_FILE = "app_window_config.dat";
     private Map<String, WindowState> windowStates = new HashMap<>();
 
-    public void saveWindowState(String windowId, Rectangle bounds, int extendedState) {
-        WindowState state = new WindowState(bounds, extendedState, false);
+    public WindowConfig() {
+        loadFromFile();
+    }
+
+    public void saveWindowState(String windowId, java.awt.Rectangle bounds, boolean minimized, int layer) {
+        WindowState state = new WindowState(bounds, minimized, layer);
         windowStates.put(windowId, state);
         saveToFile();
     }
-
-    public void saveWindowState(String windowId, Rectangle bounds, boolean minimized) {
-        WindowState state = new WindowState(bounds, 0, minimized);
-        windowStates.put(windowId, state);
-        saveToFile();
-    }
-
 
     public WindowState getWindowState(String windowId) {
         return windowStates.get(windowId);
@@ -35,12 +31,14 @@ public class WindowConfig {
             try (ObjectOutputStream oos = new ObjectOutputStream(
                     new BufferedOutputStream(new FileOutputStream(configFile)))) {
                 oos.writeObject(windowStates);
+                oos.flush();
             }
         } catch (Exception e) {
             System.err.println("Ошибка сохранения конфигурации окон: " + e.getMessage());
         }
     }
 
+    @SuppressWarnings("unchecked")
     public void loadFromFile() {
         try {
             String userHome = System.getProperty("user.home");

@@ -1,22 +1,26 @@
 package gui;
 
-import java.awt.*;
-
 public class WindowState implements java.io.Serializable {
-    private static final long serialVersionUID = 1L;
-    private Rectangle size;
-    private int extendedState;
+    private static final long serialVersionUID = 2L;
+    private Rectangle bounds;
     private boolean minimized;
+    private int layer;
 
-    public WindowState(Rectangle size, int extendedState, boolean minimized) {
-        this.size = size;
-        this.extendedState = extendedState;
+    public WindowState(java.awt.Rectangle bounds, boolean minimized, int layer) {
+        this.bounds = new Rectangle(bounds);
         this.minimized = minimized;
+        this.layer = layer;
     }
 
-    public Rectangle getSize() {
-        return size;
+    public Rectangle getBounds() {
+        return bounds;
     }
-    public int getExtendedState() { return extendedState; }
-    public boolean isMinimized() { return minimized; }
+
+    public boolean isMinimized() {
+        return minimized;
+    }
+
+    public int getLayer() {
+        return layer;
+    }
 }
